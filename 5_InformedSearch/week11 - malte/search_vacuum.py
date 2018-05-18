@@ -3,6 +3,7 @@ class Node:  # Node has only PARENT_NODE, STATE, DEPTH
         self.STATE = state
         self.PARENT_NODE = parent
         self.DEPTH = depth
+        self.SEARCHED = False
 
     def path(self):  # Create a list of nodes from the root to this node.
         current_node = self
@@ -18,20 +19,22 @@ class Node:  # Node has only PARENT_NODE, STATE, DEPTH
     def __repr__(self):
         return 'State: ' + str(self.STATE) + ' - Depth: ' + str(self.DEPTH)
 
-
 '''
 Search the tree for the goal state and return path from initial state to goal state
 '''
 def TREE_SEARCH():
+    states_Searched = []
+    best = 0
     fringe = []
     initial_node = Node(INITIAL_STATE)
     fringe = INSERT(initial_node, fringe)
     while fringe is not None:
-        node = REMOVE_FIRST(fringe)
+        node = h1(fringe, best, states_Searched)
         if node.STATE == GOAL_STATE:
             return node.path()
         children = EXPAND(node)
         fringe = INSERT_ALL(children, fringe)
+        print("Current state: ", node.STATE)
         print("fringe: {}".format(fringe))
 
 
@@ -77,10 +80,21 @@ def REMOVE_FIRST(queue):
         return queue.pop(0)
     return []
 
-def h1(queue):
-    best = 0
-    for node in queue:
 
+def h1(queue, best, states_Searched):
+    bestSum = 0
+    for node in queue:
+        if node.STATE in states_Searched:
+            continue
+        if best == 0:
+            best = node
+        sumOfClean = node.STATE[1]+node.STATE[2]
+        if sumOfClean>bestSum:
+            best = node
+            node.SEARCHED = True
+    queue.remove(best)
+    states_Searched.append(node.STATE)
+    return best
 
 
 '''
