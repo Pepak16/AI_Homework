@@ -95,6 +95,8 @@ Complete state space including loops back to current state
 Note: with loops back to current state, the DFS can be stuck in an infinite loop,
 so in that case BFS is used to find the path to the goal state
 '''
+# The way you read this is: (location, A status, B status).
+# So below here, it is like [(location, A status, B status),(location, A status, B status),(location, A status, B status)]
 #                  Current State - Actions:     ---LEFT---               ---SUCK---             ---RIGHT---
 STATE_SPACE = {('A', 'Dirty', 'Dirty'): [('A', 'Dirty', 'Dirty'), ('A', 'Clean', 'Dirty'), ('B', 'Dirty', 'Dirty')],
                ('B', 'Dirty', 'Dirty'): [('A', 'Dirty', 'Dirty'), ('B', 'Dirty', 'Clean'), ('B', 'Dirty', 'Dirty')],

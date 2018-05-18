@@ -15,14 +15,14 @@ Environment = {
 def REFLEX_VACUUM_AGENT(loc_st):  # Determine action
     if loc_st[1] == 'Dirty':
         return 'Suck'
-    elif loc_st[0] == A:
+    if loc_st[0] == A:
         return 'Right'
-    elif loc_st[0] == B:
+    if loc_st[0] == B:
         return 'Down'
-    elif loc_st[0] == C:
-        return 'Left'
-    elif loc_st[0] == D:
+    if loc_st[0] == C:
         return 'Up'
+    if loc_st[0] == D:
+        return 'Left'
 
 
 def Sensors():  # Sense Environment
@@ -34,27 +34,14 @@ def Actuators(action):  # Modify Environment
     location = Environment['Current']
     if action == 'Suck':
         Environment[location] = 'Clean'
-    # From position A to B and B back to A
     elif action == 'Right' and location == A:
         Environment['Current'] = B
-    elif action == 'Left' and location == B:
-        Environment['Current'] = A
-    # From position B to C and C back to B
-    elif action == 'Down' and location == B:
+    elif action == 'Left' and location == D:
         Environment['Current'] = C
     elif action == 'Up' and location == C:
-        Environment['Current'] = B
-    # From position C to D and D back to C
-    elif action == 'Left' and location == C:
-        Environment['Current'] = D
-    elif action == 'Right' and location == D:
-        Environment['Current'] = C
-    # From position D to A and A back to D
-    elif action == 'Up' and location == D:
         Environment['Current'] = A
-    elif action == 'Down' and location == A:
+    elif action == 'Down' and location == B:
         Environment['Current'] = D
-
 
 def run(n):  # run the agent through n steps
     print('    Current                        New')
