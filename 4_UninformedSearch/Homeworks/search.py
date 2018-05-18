@@ -86,6 +86,10 @@ def successor_fn(state):  # Lookup list of successor states
             states.remove(('W', 'E', 'E', 'W'))
         if stat == ('W', 'W', 'E', 'E'):
             states.remove(('W', 'W', 'E', 'E'))
+        if stat == ('E', 'E', 'W', 'W'):
+            states.remove(('E', 'E', 'W', 'W'))
+        if stat == ('E', 'W', 'W', 'E'):
+            states.remove(('E', 'W', 'W', 'E'))
     return states  # successor_fn( 'C' ) returns ['F', 'G']
 
 
