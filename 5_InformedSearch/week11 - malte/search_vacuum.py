@@ -1,9 +1,14 @@
 class Node:  # Node has only PARENT_NODE, STATE, DEPTH
-    def __init__(self, state, parent=None, depth=0):
+    def __init__(self, state, parent=None, depth=0, size=2):
         self.STATE = state
         self.PARENT_NODE = parent
         self.DEPTH = depth
         self.SEARCHED = False
+        self.XPOS = None
+        self.YPOS = None
+        self.TOTAL_CLEAN = 0
+        self.SIZE = size
+        self.DIRTY = True
 
     def path(self):  # Create a list of nodes from the root to this node.
         current_node = self
@@ -19,18 +24,34 @@ class Node:  # Node has only PARENT_NODE, STATE, DEPTH
     def __repr__(self):
         return 'State: ' + str(self.STATE) + ' - Depth: ' + str(self.DEPTH)
 
+
+    def setX(self, x):
+        self.XPOS = x
+
+
+    def setY(self, y):
+        self.YPOS = y
+
+
+    def setClean(self, num):
+        self.TOTAL_CLEAN = num
+
+
 '''
 Search the tree for the goal state and return path from initial state to goal state
 '''
 def TREE_SEARCH():
-    states_Searched = []
-    best = 0
     fringe = []
+
     initial_node = Node(INITIAL_STATE)
+    initial_node.XPOS = INITIAL_STATE[0]
+    initial_node.YPOS = INITIAL_STATE[1]
+
+
     fringe = INSERT(initial_node, fringe)
     while fringe is not None:
-        node = h1(fringe, best, states_Searched)
-        if node.STATE == GOAL_STATE:
+        node = h1(fringe)
+        if node.TOTAL_CLEAN == node.SIZE*node.SIZE:
             return node.path()
         children = EXPAND(node)
         fringe = INSERT_ALL(children, fringe)
@@ -44,9 +65,16 @@ Return list of the successor nodes.
 '''
 def EXPAND(node):
     successors = []
-    children = successor_fn(node.STATE)
+    children = successor_new(node)
     for child in children:
         s = Node(node)  # create node for each in state list
+        s.XPOS = child[0]
+        s.YPOS = child[1]
+        s.TOTAL_CLEAN = child[2]
+        if node.DIRTY:
+            s.DIRTY = True
+        else:
+            s.DIRTY = False
         s.STATE = child  # e.g. result = 'F' then 'G' from list ['F', 'G']
         s.PARENT_NODE = node
         s.DEPTH = node.DEPTH + 1
@@ -81,20 +109,45 @@ def REMOVE_FIRST(queue):
     return []
 
 
-def h1(queue, best, states_Searched):
-    bestSum = 0
+def h1(queue):
+    bestValue = 99999
+    best = None
     for node in queue:
-        if node.STATE in states_Searched:
-            continue
-        if best == 0:
+        if calculateBest(node) < bestValue:
+            bestValue = calculateBest(node)
             best = node
-        sumOfClean = node.STATE[1]+node.STATE[2]
-        if sumOfClean>bestSum:
-            best = node
-            node.SEARCHED = True
     queue.remove(best)
-    states_Searched.append(node.STATE)
     return best
+
+
+def calculateBest(node):
+    value = (node.SIZE*node.SIZE)-node.TOTAL_CLEAN + node.DEPTH
+    return value
+
+
+
+#Set succesors in the format (num, num, num)
+def successor_new(node):
+    successorStates = []
+    if node.XPOS != 0:
+        successorStates.append([node.XPOS-1, node.YPOS, node.TOTAL_CLEAN])
+
+    if node.XPOS != node.SIZE-1:
+        successorStates.append([node.XPOS +1, node.YPOS, node.TOTAL_CLEAN])
+
+    if node.YPOS != 0:
+        successorStates.append([node.XPOS, node.YPOS -1, node.TOTAL_CLEAN])
+
+    if node.YPOS != node.SIZE-1:
+        successorStates.append([node.XPOS, node.YPOS +1, node.TOTAL_CLEAN])
+
+    if node.DIRTY:
+        successorStates.append([node.XPOS, node.YPOS, node.TOTAL_CLEAN +1])
+    else:
+        successorStates.append([node.XPOS, node.YPOS, node.TOTAL_CLEAN])
+
+    return successorStates
+
 
 
 '''
@@ -103,11 +156,10 @@ Successor function, mapping the nodes to its successors
 def successor_fn(state):  # Lookup list of successor states
     return STATE_SPACE[state]  # successor_fn( 'C' ) returns ['F', 'G']
 
-
-INITIAL_STATE = ('A', 0, 0)
+# xPos, yPos and total cleaned. Total cleaned needs to be the
+INITIAL_STATE = (0, 0, 0)
 # Note: In this case, goal state is when vacuum goes back to location A and both A and B are clean
 # Can also be: GOAL_STATE = ('B', 1, 1)
-GOAL_STATE = ('A', 1, 1)
 
 '''
 Complete state space including loops back to current state
@@ -126,6 +178,7 @@ STATE_SPACE = {('A', 0, 0): [('A', 0, 0), ('A', 1, 0), ('B', 0, 0)],
                }
 
 
+
 '''
 Run tree search and display the nodes in the path to goal node
 '''
@@ -134,6 +187,11 @@ def run():
     print('Solution path:')
     for node in path:
         node.display()
+
+
+
+
+
 
 
 if __name__ == '__main__':
