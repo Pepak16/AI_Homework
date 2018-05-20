@@ -1,8 +1,8 @@
 import random
-import importlib
+#import importlib
 
-moduleName = input('queens_fitness:')
-importlib.import_module(moduleName)
+#moduleName = input('queens_fitness:')
+#importlib.import_module(moduleName)
 
 p_mutation = 0.2
 num_of_generations = 30
