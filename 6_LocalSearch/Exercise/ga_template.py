@@ -98,7 +98,7 @@ def random_selection(population, fitness_fn):
             to_selection.append(x)
 
     selected = [to_selection[int(random.uniform(0, total_fitness))],to_selection[int(random.uniform(0, total_fitness))]]
-    #print ("selected mom and dad ", selected)
+    # print ("selected mom and dad ", selected)
     return selected
 
 
