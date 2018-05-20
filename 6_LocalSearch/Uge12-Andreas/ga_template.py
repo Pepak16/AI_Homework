@@ -47,8 +47,16 @@ def reproduce(mother, father):
     Reproduce two individuals with single-point crossover
     Return the child individual
     '''
+    child = ()
 
-    #return child
+    for x in range(0, 3):
+        if mother[x] == 1 | father[x] == 1:
+            child = child + (1)
+        else:
+            child = child + (0)
+
+
+    return child
 
 
 def mutate(individual):
