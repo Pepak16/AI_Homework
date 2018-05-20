@@ -1,5 +1,12 @@
-def minmax_decision(state):
+from random import randint
+board = [20]
+loopchecker = 2
+divisor1 = 0
+divisor2 = 0
+newboard1 = 0
+newboard2 = 0
 
+def minmax_decision(state):
     def max_value(state):
         if is_terminal(state):
             return utility_of(state)
@@ -23,31 +30,64 @@ def minmax_decision(state):
 
 
 def is_terminal(state):
-    """
-    returns True if the state is either a win or a tie (board full)
-    :param state: State of the checkerboard. Ex: [0; 1; 2; 3; X; 5; 6; 7; 8]
-    :return:
-    """
-    pass
+    return winner_of(state) is not None or is_full_board(state)
 
 
 def utility_of(state):
-    """
-    returns +1 if winner is X (MAX player), -1 if winner is O (MIN player), or 0 otherwise
-    :param state: State of the checkerboard. Ex: [0; 1; 2; 3; X; 5; 6; 7; 8]
-    :return:
-    """
-    pass
-
+    if winner_of(state) == 'X':
+        return +1
+    elif winner_of(state) == 'O':
+        return -1
+    else:
+        return 0
 
 def successors_of(state):
-    """
-    returns a list of tuples (move, state) as shown in the exercise slides
-    :param state: State of the checkerboard. Ex: [0; 1; 2; 3; X; 5; 6; 7; 8]
-    :return:
-    """
-    pass
+    print("Hello! Your board is currently at: ",board, "Please input your divisor: ")
+    divisor1 = int(input())
+    divisor2 = randint(1,3)
+    print("Your divisor is ",divisor1)
+    while loopchecker == 2:
+        if state[divisor1] == divisor1 in [1,2,3,4,5,6,7]:
+            newboard1 = board[0] - divisor1
+            newboard2 = board[0] - divisor2
+            board1 = [newboard1]
+            board2 = [newboard2]
+            loopchecker == 2
+        else:
+            print("Illegal move.")
+        break
+    print("Your current board is ", board1)
+    print("Your opponent's board is ", board2)
+    #open = 0
+    # How many open spots there are
+    #for move in range(9):
+    #    if state[move] == move:
+    #        open += 1
+    # Decides which player's turn it is
+   # if open % 2 == 1:
+   #     player = 'X'  # X makes odd numbered moves
+   # else:
+   #     player = 'O'
+    # Creates a successor for each available move
+    #for move in range(9):
+     #   if state[move] == move:  # Its a 0, 1, 2, etc.
+      #      successor = state[:]  # Copy list
+       #     successor[move] = player  # Place the player
+        #    successors.append((move, successor))
+    # print('Successor: ' + str(successors))
+    #return successors
 
+
+def is_full_board(state):
+    for i in range(9):
+        if state[i] not in ['X', 'O']:
+            return False
+    return True
+
+
+def winner_of(state):
+    float = 2
+    if state[newboard1]
 
 def display(state):
     print("-----")
@@ -56,14 +96,14 @@ def display(state):
 
 
 def main():
-    board = [0, 1, 2, 3, 4, 5, 6, 7, 8]
-    while not is_terminal(board):
-        board[minmax_decision(board)] = 'X'
-        if not is_terminal(board):
-            display(board)
-            board[int(input('Your move? '))] = 'O'
-    display(board)
-
+    board = [20]
+    #while not is_terminal(board):
+    #    board[minmax_decision(board)] = 'X'
+    #    if not is_terminal(board):
+    #        display(board)
+    #        board[int(input('Your move? '))] = 'O'
+    #display(board)
+    successors_of(20)
 
 def argmax(iterable, func):
     return max(iterable, key=func)
