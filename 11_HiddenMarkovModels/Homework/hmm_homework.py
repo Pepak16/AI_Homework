@@ -17,9 +17,9 @@ def main():
 
     # To simulate starting from index 1, we add a dummy value at index 0
     observationss = [
-        [None, 3, 1, 3],
+        # [None, 3, 1, 3],
         # [None, 3, 3, 1, 1, 2, 2, 3, 1, 3],
-        # [None, 3, 3, 1, 1, 2, 3, 3, 1, 2],
+        [None, 3, 3, 1, 1, 2, 3, 3, 1, 2],
     ]
 
     # Markov transition matrix
@@ -79,7 +79,6 @@ def compute_forward(states, observations, transitions, emissions):
     for sts in inclusive_range(1, big_n):
         forward[sts, 1] = tr[0, sts] * em[sts, obs[1]]
 
-        # print(forward)
         for t in inclusive_range(2, big_t):
             for sts in inclusive_range(1, big_n):
                 sum = 0
@@ -158,8 +157,6 @@ def compute_viterbi(states, observations, transitions, emissions):
 
 
 def argmax(sequence):
-    # Note: You could use np.argmax(sequence), but only if sequence is a list.
-    # If it is a generator, first convert it: np.argmax(list(sequence))
     return max(enumerate(sequence), key=lambda x: x[1])[0]
 
 
