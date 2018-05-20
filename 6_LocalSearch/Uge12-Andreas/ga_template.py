@@ -1,6 +1,5 @@
 import random
 
-
 p_mutation = 0.2
 num_of_generations = 30
 
@@ -47,15 +46,14 @@ def reproduce(mother, father):
     Reproduce two individuals with single-point crossover
     Return the child individual
     '''
-    child = ()
-
+    child = []
     for x in range(0, 3):
         if mother[x] == 1 or father[x] == 1:
-            child = child + (1,)
+            child.append(1)
         else:
-            child = child + (0,)
+            child.append(0)
 
-    return child
+    return tuple(child)
 
 
 def mutate(individual):
@@ -65,7 +63,7 @@ def mutate(individual):
     '''
     mutated = False
     mutation = ()
-    for x in range (0, len(individual)):
+    for x in range(0, len(individual)):
         if random.randint(0, 1) == 1 and mutated == False:
             mutation = mutation + (1,)
             mutated = True
@@ -88,10 +86,20 @@ def random_selection(population, fitness_fn):
     # want to do it in the same order. So let's convert it temporarily to a
     # list.
     ordered_population = list(population)
+    selected = []
+    total_fitness = 0
+    to_selection = []
 
+    for x in ordered_population:
+        current_fitness = fitness_fn(x)
+        total_fitness = total_fitness + current_fitness
 
+        for i in range(current_fitness):
+            to_selection.append(x)
 
-    #return selected
+    selected = [to_selection[int(random.uniform(0, total_fitness))],to_selection[int(random.uniform(0, total_fitness))]]
+    #print ("selected mom and dad ", selected)
+    return selected
 
 
 def fitness_function(individual):
@@ -109,7 +117,7 @@ def fitness_function(individual):
 
     fitness = 0
 
-    if individual[0]  == 1:
+    if individual[0] == 1:
         fitness = fitness + 4
     if individual[1] == 1:
         fitness = fitness + 2
@@ -144,7 +152,7 @@ def main():
         (0, 1, 0),
         (1, 0, 0)
     }
-    #initial_population = get_initial_population(3, 4)
+    # initial_population = get_initial_population(3, 4)
 
     fittest = genetic_algorithm(initial_population, fitness_function, minimal_fitness)
     print('Fittest Individual: ' + str(fittest))
@@ -152,7 +160,4 @@ def main():
 
 if __name__ == '__main__':
     pass
-    test1 = (0,0,0)
-    testchild = fitness_function(test1)
-    print (fitness_function(test1))
-    #main()
+    main()
