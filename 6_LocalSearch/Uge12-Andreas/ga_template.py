@@ -90,6 +90,7 @@ def random_selection(population, fitness_fn):
     ordered_population = list(population)
 
 
+
     #return selected
 
 
@@ -151,7 +152,7 @@ def main():
 
 if __name__ == '__main__':
     pass
-    test1 = (1,0,0)
-    testchild = reproduce(test1, test2)
-    print (testchild)
+    test1 = (0,0,0)
+    testchild = fitness_function(test1)
+    print (fitness_function(test1))
     #main()
