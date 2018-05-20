@@ -58,50 +58,70 @@ class CSP:
         return True
 
 
-def create_australia_csp():
-    wa, q, t, v, sa, nt, nsw = 'WA', 'Q', 'T', 'V', 'SA', 'NT', 'NSW'
-    values = ['Red', 'Green', 'Blue']
-    variables = [wa, q, t, v, sa, nt, nsw]
+def create_south_america_csp():
+    costa_rica, panama, colombia, venezuela, guyana, suriname, guyana_fr, brasil, uruguay, argentina, chile, bolivia, paraguay, peru, ecuador = 'Costa Rica', 'Panama', 'Colombia', 'Venezuela', 'Guyana', 'Suriname', 'Guyana Fr', 'Brasil', 'Uruguay', 'Argentina', 'Chile', 'Bolivia', 'Paraguay', 'Peru', 'Ecuador'
+    values = ['Red', 'Green', 'Blue', 'Yellow']
+    variables = [costa_rica, panama, colombia, venezuela, guyana, suriname, guyana_fr, brasil, uruguay, argentina, chile, bolivia, paraguay, peru, ecuador]
     domains = {
-        wa: values[:],
-        q: values[:],
-        t: values[:],
-        v: values[:],
-        sa: values[:],
-        nt: values[:],
-        nsw: values[:],
+        costa_rica: values[:],
+        panama: values[:],
+        colombia: values[:],
+        venezuela: values[:],
+        guyana: values[:],
+        suriname: values[:],
+        guyana_fr: values[:],
+        brasil: values[:],
+        uruguay: values[:],
+        argentina: values[:],
+        chile: values[:],
+        bolivia: values[:],
+        paraguay: values[:],
+        peru: values[:],
+        ecuador: values[:],
     }
     neighbours = {
-        wa: [sa, nt],
-        q: [sa, nt, nsw],
-        t: [],
-        v: [sa, nsw],
-        sa: [wa, nt, q, nsw, v],
-        nt: [sa, wa, q],
-        nsw: [sa, q, v],
+        costa_rica: [panama],
+        panama: [costa_rica, colombia],
+        colombia: [panama, ecuador, peru, brasil, venezuela],
+        venezuela: [colombia, guyana, brasil],
+        guyana: [venezuela, brasil, suriname],
+        suriname: [guyana, brasil, guyana_fr],
+        guyana_fr: [suriname, brasil],
+        brasil: [guyana_fr, suriname, guyana, venezuela, colombia, peru, bolivia, paraguay, argentina, uruguay],
+        uruguay: [argentina, brasil],
+        argentina: [uruguay, brasil, paraguay, bolivia, chile],
+        chile: [argentina, bolivia, peru],
+        bolivia: [chile, argentina, brasil, paraguay, peru],
+        paraguay: [argentina, brasil, bolivia],
+        peru: [chile, bolivia, brasil, colombia, ecuador],
+        ecuador: [peru, colombia],
     }
 
     def constraint_function(first_variable, first_value, second_variable, second_value):
         return first_value != second_value
 
     constraints = {
-        wa: constraint_function,
-        q: constraint_function,
-        t: constraint_function,
-        v: constraint_function,
-        sa: constraint_function,
-        nt: constraint_function,
-        nsw: constraint_function,
+        costa_rica: constraint_function,
+        panama: constraint_function,
+        colombia: constraint_function,
+        guyana: constraint_function,
+        suriname: constraint_function,
+        guyana_fr: constraint_function,
+        brasil: constraint_function,
+        uruguay: constraint_function,
+        argentina: constraint_function,
+        chile: constraint_function,
+        bolivia: constraint_function,
+        paraguay: constraint_function,
+        peru: constraint_function,
+        ecuador: constraint_function,
     }
 
     return CSP(variables, domains, neighbours, constraints)
 
 
 if __name__ == '__main__':
-    australia = create_australia_csp()
-    result = australia.backtracking_search()
+    south_america = create_south_america_csp()
+    result = south_america.backtracking_search()
     for area, color in sorted(result.items()):
         print("{}: {}".format(area, color))
-
-    # Mapchart for Australia:
-    # https://mapchart.net/australia.html
