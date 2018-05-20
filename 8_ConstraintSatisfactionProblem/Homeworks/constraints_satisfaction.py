@@ -40,7 +40,7 @@ class CSP:
 
     def order_domain_values(self, variable, assignment):
         all_values = self.domains[variable][:]
-        # shuffle(all_values)
+        shuffle(all_values)
         return all_values
 
     def is_consistent(self, variable, value, assignment):
@@ -103,4 +103,5 @@ if __name__ == '__main__':
     for area, color in sorted(result.items()):
         print("{}: {}".format(area, color))
 
-    # Check at https://mapchart.net/australia.html
+    # Mapchart for Australia:
+    # https://mapchart.net/australia.html
