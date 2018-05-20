@@ -1,1 +1,29 @@
-Hello
+Lecture 8 Exercises
+
+1. What is returned by create_australia_csp()?
+
+
+2. What is returned by backtracking_search()?
+This method is returning the recursive_backtracking method.
+The recursive_backtracking returns the assignment if it's complete.
+
+
+3. What is the purpose of assignment variable?
+
+
+4. What is the purpose of variable variable?
+
+
+5. What is the purpose of the following statement?
+for value in self.order_domain_values(variable, assignment)
+
+
+6. What would the following do?
+if self.is_consistent('Q', 'Red', {'NT': 'Blue', 'NSW': 'green'}):
+assignment[variable] = value
+
+
+7. What would then assignment be?
+
+
+8. What is the effect of del assignment[variable]?
