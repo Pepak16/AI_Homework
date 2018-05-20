@@ -50,11 +50,10 @@ def reproduce(mother, father):
     child = ()
 
     for x in range(0, 3):
-        if mother[x] == 1 | father[x] == 1:
-            child = child + (1)
+        if mother[x] == 1 or father[x] == 1:
+            child = child + (1,)
         else:
-            child = child + (0)
-
+            child = child + (0,)
 
     return child
 
@@ -64,8 +63,16 @@ def mutate(individual):
     Mutate an individual by randomly assigning one of its bits
     Return the mutated individual
     '''
+    mutated = False
+    mutation = ()
+    for x in range (0, len(individual)):
+        if random.randint(0, 1) == 1 and mutated == False:
+            mutation = mutation + (1,)
+            mutated = True
+        else:
+            mutation = mutation + (individual[x],)
 
-    #return mutation
+    return mutation
 
 
 def random_selection(population, fitness_fn):
@@ -99,7 +106,16 @@ def fitness_function(individual):
     enumerate(reversed((1, 1, 0))) -> [(0, 0), (1, 1), (2, 1)]
     '''
 
-    #return fitness
+    fitness = 0
+
+    if individual[0]  == 1:
+        fitness = fitness + 4
+    if individual[1] == 1:
+        fitness = fitness + 2
+    if individual[2] == 1:
+        fitness = fitness + 1
+
+    return fitness
 
 
 def get_fittest_individual(iterable, func):
@@ -135,4 +151,7 @@ def main():
 
 if __name__ == '__main__':
     pass
+    test1 = (1,0,0)
+    testchild = reproduce(test1, test2)
+    print (testchild)
     #main()
